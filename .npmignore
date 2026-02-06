@@ -1,0 +1,29 @@
+# Source files
+src/
+tsconfig.json
+tsup.config.ts
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# CI/CD
+.github/
+
+# Test
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Docs
+docs/
+examples/
+
+# Misc
+*.log
+.DS_Store
