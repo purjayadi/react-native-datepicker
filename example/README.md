@@ -1,173 +1,50 @@
-# DatePicker Example App
+# Welcome to your Expo app 👋
 
-This is an Expo application demonstrating the usage of `@purjayadi/react-native-datepicker`.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Features Demonstrated
+## Get started
 
-1. **Basic Date Picker** - Simple date selection with validation
-2. **Date & Time Picker** - Date and time selection together
-3. **Date Range Restriction** - Limiting selectable dates between min and max
-4. **Custom Styling** - Customizing the appearance of the picker
+1. Install dependencies
 
-## Setup
+   ```bash
+   npm install
+   ```
 
-### Prerequisites
+2. Start the app
 
-- Node.js >= 16
-- Expo CLI: `npm install -g expo-cli`
-- Expo Go app on your device (iOS/Android)
-- Or a simulator/emulator
+   ```bash
+   npx expo start
+   ```
 
-### Installation
+In the output, you'll find options to open the app in a
 
-```bash
-# Install dependencies
-npm install
-# or
-yarn install
-```
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Running the Example
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-### Start Development Server
+## Get a fresh project
+
+When you're ready, run:
 
 ```bash
-npm start
-# or
-yarn start
+npm run reset-project
 ```
 
-Then:
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-- Scan QR code with Expo Go app (iOS/Android)
-- Press `i` for iOS simulator
-- Press `a` for Android emulator
-- Press `w` for web browser
+## Learn more
 
-### Direct Platform Launch
+To learn more about developing your project with Expo, look at the following resources:
 
-```bash
-# iOS
-npm run ios
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-# Android
-npm run android
+## Join the community
 
-# Web
-npm run web
-```
+Join our community of developers creating universal apps.
 
-## Project Structure
-
-```
-example/
-├── App.tsx           # Main example component
-├── package.json      # Example app dependencies
-└── README.md         # This file
-```
-
-## Usage Examples
-
-### Basic Usage
-
-```tsx
-import { DatePicker, DatePickerRef } from '@purjayadi/react-native-datepicker';
-
-const datePickerRef = useRef<DatePickerRef>(null);
-const [date, setDate] = useState('');
-
-<DatePicker
-  ref={datePickerRef}
-  label="Select Date"
-  value={date}
-  onChange={setDate}
-/>
-
-<Button onPress={() => datePickerRef.current?.show()} />
-```
-
-### With Time Picker
-
-```tsx
-<DatePicker
-  ref={datePickerRef}
-  label="Select Date & Time"
-  value={dateTime}
-  onChange={setDateTime}
-  showTimePicker={true}
-/>
-```
-
-### With Date Range
-
-```tsx
-<DatePicker
-  ref={datePickerRef}
-  label="Select Date"
-  value={date}
-  onChange={setDate}
-  minDate="2020-01-01"
-  maxDate="2025-12-31"
-/>
-```
-
-### Custom Styling
-
-```tsx
-<DatePicker
-  ref={datePickerRef}
-  value={date}
-  onChange={setDate}
-  inputStyle={{
-    backgroundColor: "#E8F5E9",
-    borderRadius: 12,
-  }}
-  highlightColor="#4CAF50"
-  buttonStyle={{
-    backgroundColor: "#4CAF50",
-  }}
-/>
-```
-
-## Dependencies
-
-- **Expo** - Development framework
-- `react-native-reanimated` - For bottom sheet animations
-- `react-native-gesture-handler` - For gesture handling
-- `@gorhom/bottom-sheet` - Bottom sheet component
-- `react-native-safe-area-context` - Safe area handling
-
-## Troubleshooting
-
-### Clear Cache
-
-If you encounter any issues:
-
-```bash
-# Clear Expo cache
-rm -rf .expo
-expo start -c
-
-# Or clear npm/yarn cache
-npm cache clean --force
-# or
-yarn cache clean
-```
-
-### Module Resolution Issues
-
-If the package is not found:
-
-```bash
-# Reinstall dependencies
-rm -rf node_modules
-npm install
-# or
-yarn install
-```
-
-## Learn More
-
-- [Package Documentation](../README.md)
-- [Expo Documentation](https://docs.expo.dev/)
-- [@gorhom/bottom-sheet](https://gorhom.github.io/react-native-bottom-sheet/)
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

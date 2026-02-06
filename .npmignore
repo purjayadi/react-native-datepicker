@@ -1,29 +1,62 @@
 # Source files
 src/
+*.tsx
+*.ts
+!dist/**/*.d.ts
+!dist/**/*.d.mts
+
+# Development config files
 tsconfig.json
 tsup.config.ts
+.eslintrc*
+.prettierrc*
+
+# Example app
+example/
+
+# Documentation (not needed in package)
+PUBLISHING.md
+DEVELOPMENT.md
+CONTRIBUTING.md
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # Git
 .git/
 .gitignore
+.gitattributes
 
 # CI/CD
 .github/
 
-# Test
+# Test files
 *.test.ts
 *.test.tsx
 *.spec.ts
 *.spec.tsx
+__tests__/
 
-# Docs
+# Documentation
 docs/
 examples/
 
-# Misc
+# Logs and temp files
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .DS_Store
+Thumbs.db
+*.tmp
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+.npm
+coverage/
+.nyc_output/

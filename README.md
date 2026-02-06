@@ -140,31 +140,71 @@ export default function App() {
 />
 ```
 
+### With Custom Date Format
+
+```tsx
+// ISO format: "2026-02-06"
+<DatePicker
+  ref={datePickerRef}
+  label="Select Date"
+  value={selectedDate}
+  onChange={setSelectedDate}
+  dateFormat="yyyy-MM-dd"
+/>
+
+// US format: "02/06/2026"
+<DatePicker
+  ref={datePickerRef}
+  label="Select Date"
+  value={selectedDate}
+  onChange={setSelectedDate}
+  dateFormat="MM/dd/yyyy"
+/>
+
+// Custom format with time: "Feb 06, 2026 3:30 PM"
+<DatePicker
+  ref={datePickerRef}
+  label="Select Date & Time"
+  value={selectedDateTime}
+  onChange={setSelectedDateTime}
+  showTimePicker
+  dateFormat="MMM dd, yyyy h:mm a"
+/>
+```
+
+> **Note:** Date format uses [date-fns format tokens](https://date-fns.org/v3.3.1/docs/format). Common formats:
+>
+> - `yyyy-MM-dd` → 2026-02-06
+> - `dd/MM/yyyy` → 06/02/2026
+> - `MMM dd, yyyy` → Feb 06, 2026
+> - `MMMM dd, yyyy HH:mm` → February 06, 2026 15:30
+
 ## API Reference
 
 ### Props
 
-| Prop                    | Type                        | Default         | Description                               |
-| ----------------------- | --------------------------- | --------------- | ----------------------------------------- |
-| `value`                 | `string`                    | `undefined`     | Current selected date string              |
-| `label`                 | `string`                    | `undefined`     | Label text above the input                |
-| `placeholder`           | `string`                    | `"Select Date"` | Placeholder text when no date is selected |
-| `onChange`              | `(date: string) => void`    | **required**    | Callback when date is selected            |
-| `minDate`               | `string`                    | `undefined`     | Minimum selectable date (ISO format)      |
-| `maxDate`               | `string`                    | `undefined`     | Maximum selectable date (ISO format)      |
-| `showTimePicker`        | `boolean`                   | `false`         | Show time picker in addition to date      |
-| `subText`               | `string \| React.ReactNode` | `undefined`     | Subtitle text below label                 |
-| `errors`                | `string[]`                  | `undefined`     | Array of error messages                   |
-| `inputStyle`            | `ViewStyle`                 | `undefined`     | Custom style for input container          |
-| `inputTextStyle`        | `TextStyle`                 | `undefined`     | Custom style for input text               |
-| `labelStyle`            | `TextStyle`                 | `undefined`     | Custom style for label                    |
-| `errorStyle`            | `TextStyle`                 | `undefined`     | Custom style for error text               |
-| `subTextStyle`          | `TextStyle`                 | `undefined`     | Custom style for subtitle text            |
-| `highlightColor`        | `string`                    | `"#E5E5E5"`     | Color of the picker highlight             |
-| `buttonStyle`           | `ViewStyle`                 | `undefined`     | Custom style for save button              |
-| `buttonTextStyle`       | `TextStyle`                 | `undefined`     | Custom style for save button text         |
-| `cancelButtonStyle`     | `ViewStyle`                 | `undefined`     | Custom style for cancel button            |
-| `cancelButtonTextStyle` | `TextStyle`                 | `undefined`     | Custom style for cancel button text       |
+| Prop                    | Type                        | Default                                   | Description                               |
+| ----------------------- | --------------------------- | ----------------------------------------- | ----------------------------------------- |
+| `value`                 | `string`                    | `undefined`                               | Current selected date string              |
+| `label`                 | `string`                    | `undefined`                               | Label text above the input                |
+| `placeholder`           | `string`                    | `"Select Date"`                           | Placeholder text when no date is selected |
+| `onChange`              | `(date: string) => void`    | **required**                              | Callback when date is selected            |
+| `minDate`               | `string`                    | `undefined`                               | Minimum selectable date (ISO format)      |
+| `maxDate`               | `string`                    | `undefined`                               | Maximum selectable date (ISO format)      |
+| `showTimePicker`        | `boolean`                   | `false`                                   | Show time picker in addition to date      |
+| `dateFormat`            | `string`                    | `"dd MMMM yyyy"` or `"dd MMM yyyy HH:mm"` | Custom date format (uses date-fns format) |
+| `subText`               | `string \| React.ReactNode` | `undefined`                               | Subtitle text below label                 |
+| `errors`                | `string[]`                  | `undefined`                               | Array of error messages                   |
+| `inputStyle`            | `ViewStyle`                 | `undefined`                               | Custom style for input container          |
+| `inputTextStyle`        | `TextStyle`                 | `undefined`                               | Custom style for input text               |
+| `labelStyle`            | `TextStyle`                 | `undefined`                               | Custom style for label                    |
+| `errorStyle`            | `TextStyle`                 | `undefined`                               | Custom style for error text               |
+| `subTextStyle`          | `TextStyle`                 | `undefined`                               | Custom style for subtitle text            |
+| `highlightColor`        | `string`                    | `"#E5E5E5"`                               | Color of the picker highlight             |
+| `buttonStyle`           | `ViewStyle`                 | `undefined`                               | Custom style for save button              |
+| `buttonTextStyle`       | `TextStyle`                 | `undefined`                               | Custom style for save button text         |
+| `cancelButtonStyle`     | `ViewStyle`                 | `undefined`                               | Custom style for cancel button            |
+| `cancelButtonTextStyle` | `TextStyle`                 | `undefined`                               | Custom style for cancel button text       |
 
 ### Ref Methods
 

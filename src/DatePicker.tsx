@@ -28,7 +28,6 @@ import {
 } from "date-fns";
 import ScrollPicker from "react-native-wheel-scrollview-picker";
 import { BottomSheetModal, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export interface DatePickerRef {
   show: (initialDate?: string) => void;
@@ -42,6 +41,7 @@ export interface DatePickerProps {
   minDate?: string;
   maxDate?: string;
   showTimePicker?: boolean;
+  dateFormat?: string; // Custom format (e.g., "yyyy-MM-dd", "dd/MM/yyyy", "MMM dd, yyyy")
   subText?: string | React.ReactNode;
   errors?: string[];
   // Styling props
@@ -92,6 +92,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       minDate,
       maxDate,
       showTimePicker = false,
+      dateFormat,
       subText,
       errors,
       inputStyle,
@@ -109,7 +110,12 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
   ) => {
     const nowYear = new Date().getFullYear();
     const bottomSheetRef = useRef<BottomSheetModal>(null);
-    const { bottom: paddingBottom } = useSafeAreaInsets();
+
+    // Default formats if not provided
+    const defaultFormat = useMemo(() => {
+      if (dateFormat) return dateFormat;
+      return showTimePicker ? "dd MMM yyyy HH:mm" : "dd MMMM yyyy";
+    }, [dateFormat, showTimePicker]);
 
     const fullMonths = useMemo(
       () => [
@@ -160,9 +166,21 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
     const show = useCallback(
       (initialDate?: string) => {
-        const selectedDate = initialDate
-          ? parse(initialDate, "yyyy-MM-dd", new Date())
-          : new Date();
+        let selectedDate: Date;
+        if (initialDate) {
+          try {
+            selectedDate = parse(initialDate, defaultFormat, new Date());
+            // If parsing fails or returns invalid date, use current date
+            if (!selectedDate || isNaN(selectedDate.getTime())) {
+              selectedDate = new Date();
+            }
+          } catch {
+            selectedDate = new Date();
+          }
+        } else {
+          selectedDate = new Date();
+        }
+
         const selectedDay = format(selectedDate, "dd");
         const currentMonthIndex = selectedDate.getMonth();
         const selectedMonth = fullMonths[currentMonthIndex];
@@ -198,7 +216,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
         setTimeout(() => bottomSheetRef.current?.present(), 10);
       },
-      [minDate, maxDate, fullMonths]
+      [minDate, maxDate, fullMonths, showTimePicker, defaultFormat]
     );
 
     useImperativeHandle(ref, () => ({ show }), [show]);
@@ -231,10 +249,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
         return;
       }
 
-      const selectedMonthIndex = fullMonths.findIndex((m) => m === month);
-      const formattedDate = showTimePicker
-        ? `${day} ${shortMonths[selectedMonthIndex]} ${year} ${hour}:${minute}`
-        : `${day} ${fullMonths[selectedMonthIndex]} ${year}`;
+      // Format the date according to custom format or default
+      const formattedDate = format(finalDate, defaultFormat);
 
       onChange(formattedDate);
       bottomSheetRef.current?.close();
@@ -449,7 +465,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                 style={[
                   styles.buttonContainer,
                   {
-                    paddingBottom: Platform.OS === "ios" ? paddingBottom : 20,
+                    paddingBottom: Platform.OS === "ios" ? 20 : 20,
                   },
                 ]}
               >
