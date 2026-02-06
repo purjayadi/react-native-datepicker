@@ -29,6 +29,43 @@ import {
 import ScrollPicker from "react-native-wheel-scrollview-picker";
 import { BottomSheetModal, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 
+// Constants moved outside component for better performance
+const FULL_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const SHORT_MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const HOURS = Array.from({ length: 24 }, (_, i) => `${i}`.padStart(2, "0"));
+const MINUTES = Array.from({ length: 60 }, (_, i) => `${i}`.padStart(2, "0"));
+
+const generateDaysArray = (totalDays: number): string[] =>
+  Array.from({ length: totalDays }, (_, i) => `${i + 1}`.padStart(2, "0"));
+
 export interface DatePickerRef {
   show: (initialDate?: string) => void;
 }
@@ -116,42 +153,6 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       if (dateFormat) return dateFormat;
       return showTimePicker ? "dd MMM yyyy HH:mm" : "dd MMMM yyyy";
     }, [dateFormat, showTimePicker]);
-
-    const fullMonths = useMemo(
-      () => [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-      []
-    );
-
-    const shortMonths = useMemo(
-      () => [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      []
-    );
     const [day, setDay] = useState("01");
     const [month, setMonth] = useState("January");
     const [year, setYear] = useState(nowYear);
@@ -162,7 +163,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
     const [minute, setMinute] = useState("00");
     const [height, setHeight] = useState(180);
 
-    const displayMonths = showTimePicker ? shortMonths : fullMonths;
+    const displayMonths = showTimePicker ? SHORT_MONTHS : FULL_MONTHS;
 
     const show = useCallback(
       (initialDate?: string) => {
@@ -183,7 +184,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
         const selectedDay = format(selectedDate, "dd");
         const currentMonthIndex = selectedDate.getMonth();
-        const selectedMonth = fullMonths[currentMonthIndex];
+        const selectedMonth = FULL_MONTHS[currentMonthIndex];
         const selectedYear = getYear(selectedDate);
 
         const min = minDate
@@ -201,9 +202,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
         const totalDays = getDaysInMonth(
           new Date(selectedYear, currentMonthIndex)
         );
-        const daysArray = Array.from({ length: totalDays }, (_, i) =>
-          `${i + 1}`.padStart(2, "0")
-        );
+        const daysArray = generateDaysArray(totalDays);
 
         setDay(selectedDay);
         setMonth(selectedMonth);
@@ -216,13 +215,13 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
         setTimeout(() => bottomSheetRef.current?.present(), 10);
       },
-      [minDate, maxDate, fullMonths, showTimePicker, defaultFormat]
+      [minDate, maxDate, showTimePicker, defaultFormat]
     );
 
     useImperativeHandle(ref, () => ({ show }), [show]);
 
     const handleSetDate = () => {
-      const monthIndex = fullMonths.findIndex((m) => m === month);
+      const monthIndex = FULL_MONTHS.findIndex((m) => m === month);
       const finalDateStr = `${year}-${(monthIndex + 1)
         .toString()
         .padStart(2, "0")}-${day}`;
@@ -258,23 +257,19 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
 
     const handleMonthChange = (val: string) => {
       const fullMonth = showTimePicker
-        ? (fullMonths.find((m) => m.startsWith(val)) ?? val)
+        ? (FULL_MONTHS.find((m) => m.startsWith(val)) ?? val)
         : val;
-      const changedMonthIndex = fullMonths.findIndex((m) => m === fullMonth);
+      const changedMonthIndex = FULL_MONTHS.findIndex((m) => m === fullMonth);
       const totalDays = getDaysInMonth(new Date(year, changedMonthIndex));
-      const newDays = Array.from({ length: totalDays }, (_, i) =>
-        `${i + 1}`.padStart(2, "0")
-      );
+      const newDays = generateDaysArray(totalDays);
       setMonth(fullMonth);
       setDays(newDays);
     };
 
     const handleYearChange = (val: number) => {
-      const yearMonthIndex = fullMonths.findIndex((m) => m === month);
+      const yearMonthIndex = FULL_MONTHS.findIndex((m) => m === month);
       const totalDays = getDaysInMonth(new Date(val, yearMonthIndex));
-      const newDays = Array.from({ length: totalDays }, (_, i) =>
-        `${i + 1}`.padStart(2, "0")
-      );
+      const newDays = generateDaysArray(totalDays);
       setYear(val);
       setDays(newDays);
     };
@@ -284,10 +279,6 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
       showTimePicker ? month.startsWith(val) : val === month
     );
     const findSelectedYearByIndex = years.findIndex((val) => val === year);
-    const hours = Array.from({ length: 24 }, (_, i) => `${i}`.padStart(2, "0"));
-    const minutes = Array.from({ length: 60 }, (_, i) =>
-      `${i}`.padStart(2, "0")
-    );
 
     const dateValue = useMemo(() => {
       if (value) {
@@ -417,8 +408,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                 {showTimePicker && (
                   <>
                     <ScrollPicker
-                      dataSource={hours}
-                      selectedIndex={hours.findIndex((val) => val === hour)}
+                      dataSource={HOURS}
+                      selectedIndex={HOURS.findIndex((val) => val === hour)}
                       renderItem={(data) => (
                         <Text
                           style={
@@ -438,8 +429,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>(
                       wrapperBackground="#FFFFFF"
                     />
                     <ScrollPicker
-                      dataSource={minutes}
-                      selectedIndex={minutes.findIndex((val) => val === minute)}
+                      dataSource={MINUTES}
+                      selectedIndex={MINUTES.findIndex((val) => val === minute)}
                       renderItem={(data) => (
                         <Text
                           style={

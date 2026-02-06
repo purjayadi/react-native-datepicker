@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A flexible and customizable React Native datepicker component with bottom sheet modal",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -45,7 +45,6 @@
     "react-native-safe-area-context": ">=4.0.0"
   },
   "dependencies": {
-    "classnames": "^2.5.1",
     "date-fns": "^3.3.1",
     "react-native-wheel-scrollview-picker": "^2.0.1"
   },
