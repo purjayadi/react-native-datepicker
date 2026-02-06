@@ -13,6 +13,15 @@ A flexible and customizable React Native datepicker component with bottom sheet 
 - 🎯 Min/Max date range support
 - ♿ Safe area support
 
+## Screenshots
+
+<div align="center">
+  <img src="https://github.com/purjayadi/react-native-datepicker/blob/main/screenshot/1.png" width="250" alt="Screenshot 1" />
+  <img src="https://github.com/purjayadi/react-native-datepicker/blob/main/screenshot/2.png" width="250" alt="Screenshot 2" />
+  <img src="https://github.com/purjayadi/react-native-datepicker/blob/main/screenshot/3.png" width="250" alt="Screenshot 3" />
+  <img src="https://github.com/purjayadi/react-native-datepicker/blob/main/screenshot/4.png" width="250" alt="Screenshot 4" />
+</div>
+
 ## Installation
 
 ```bash
